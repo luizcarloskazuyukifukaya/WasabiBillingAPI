@@ -61,9 +61,9 @@ xfukaya@kfukaya:~/projects/python/WasabiBillingAPI$
 ## Storage Calculation
 The storage values are calculated as shown bellow:
 
-Total Storage = Active Storage + Deleted Storage
-Active Storage = PaddedStorageSizeBytes + MetadataStorageSizeBytes
-Deleted Storage  = DeletedStorageSizeBytes
+Total Storage = Active Storage + Deleted Storage  
+Active Storage = PaddedStorageSizeBytes + MetadataStorageSizeBytes  
+Deleted Storage  = DeletedStorageSizeBytes  
 
 ## References
 ## Wasabi Knowledge Base References:
