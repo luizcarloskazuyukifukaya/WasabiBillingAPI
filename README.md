@@ -78,6 +78,11 @@ INFO:__main__:Number of HEAD Calls          : 0
 INFO:__main__:Delete Bytes                  : 0
 xfukaya@kfukaya:~/projects/python/WasabiBillingAPI$
 ```
+## Customization
+How to calculate Total Storage in TB based on the API response:
+Total Storage (TB) = Active Storage (TB) + Deleted Storage (TB)
+Active Storage (TB) = (PaddedStorageSizeBytes + MetadataStorageSizeBytes) / 1024 / 1024 / 1024 / 1024
+Deleted Storage (TB) = DeletedStorageSizeBytes / 1024 / 1024 / 1024 / 1024
 
 ## References
 ## Wasabi Knowledge Base References:

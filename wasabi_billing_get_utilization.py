@@ -109,6 +109,27 @@ def check_param(**params):
 
     return paramValidNum, csvFlag, fromDate, toDate
 
+
+# Calculate Storages in bytes got in day only
+# Total Storage (TB) = Active Storage (TB) + Deleted Storage (TB)
+# Active Storage (TB) = (PaddedStorageSizeBytes + MetadataStorageSizeBytes) / 1024 / 1024 / 1024 / 1024
+# Deleted Storage (TB) = DeletedStorageSizeBytes / 1024 / 1024 / 1024 / 1024
+def calculate_storage(util):
+    deleted = util["DeletedStorageSizeBytes"]
+    padded = util['PaddedStorageSizeBytes']
+    metadata = util['MetadataStorageSizeBytes']
+
+    deleted_storage = 0
+    active_storage = 0
+    total_storage = 0
+
+    deleted_storage = int(deleted)
+    active_storage = int(padded) + int(metadata)
+    total_storage = active_storage + deleted_storage
+
+    return total_storage, active_storage, deleted_storage
+
+
 # By using Wasabi Billing Endpoints, your Sub-Accounts can access daily summary utilization of their Sub-Account as well as daily utilizations of all buckets broken down into per-bucket components.
 
 # API Base URL: https://billing.wasabisys.com
@@ -116,7 +137,7 @@ def check_param(**params):
 # Available Endpoints:
 # GET /utilization
 # GET /utilization/bucket
-# Parameters to query with 
+# Parameters to query with
 #   from: yyyy-mm-dd #Data from this date
 #   to, yyyy-mm-dd #Data to this date
 #   csv, true #Format the response in a CSV format
@@ -138,7 +159,7 @@ def get_utilization(**inputParams):
     logger.debug(f"csvFlag [{csvFlag}]")
     logger.debug(f"fromDate [{fromDate}]")
     logger.debug(f"toDate [{toDate}]")
-    
+
     # If date is not specified, should return {}
     if len(fromDate) == 0:
         return utils
@@ -167,7 +188,7 @@ def get_utilization(**inputParams):
     # If optional parameter (csv=true) is specified
     if csvFlag:
         httpParam["csv"] = "true"
-    
+
     ## API Key value
     access_key, secret_key = get_aws_credentials(AWS_PROFILE)
     logger.debug(f"Access Key is {access_key}")
@@ -228,6 +249,19 @@ def get_utilization(**inputParams):
         logger.info(f"Number of LIST Calls          : {util['NumLISTCalls']}")
         logger.info(f"Number of HEAD Calls          : {util['NumHEADCalls']}")
         logger.info(f"Delete Bytes                  : {util['DeleteBytes']}")
+        logger.info(
+            "-----------------------------------------------------------------------------------"
+        )
+
+        # calculate total, active and deleted storage (per day)        
+        total_storage, active_storage, deleted_storage = calculate_storage(util)
+        logger.info(f"Total Storage     : {total_storage}")
+        logger.info(f"Active Storage    : {active_storage}")
+        logger.info(f"deleted Storage   : {deleted_storage}")
+        logger.info(
+            "-----------------------------------------------------------------------------------"
+        )
+
 
     return utils
 
@@ -271,7 +305,7 @@ def main():
 
     # Parameters
     logger.debug(f"Calling get_utilization(f, t, csv) ...")
-    all_utils = get_utilization(f="2024-03-10", t="2024-03-12", csv="true")
+    all_utils = get_utilization(f="2024-03-10", t="2024-03-11", csv="true")
     logger.debug(f"get_utilization(f, t, csv).")
     ## return value
     logger.debug(f"{all_utils}")
