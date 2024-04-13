@@ -339,8 +339,8 @@ def main():
 
     # Parameters
     logger.debug(f"Calling get_utilization(f, t, csv) ...")
-    all_utils = get_utilization(f="2024-03-04", t="2024-03-11", csv="true")
-    # all_utils = get_utilization(f="2024-03-10", t="2024-03-11", csv="false")
+    # all_utils = get_utilization(f="2024-03-04", t="2024-03-11", csv="true")
+    all_utils = get_utilization(f="2024-03-10", t="2024-03-11", csv="false")
     logger.debug(f"get_utilization(f, t, csv).")
     ## return value
     logger.debug(f"{all_utils}")

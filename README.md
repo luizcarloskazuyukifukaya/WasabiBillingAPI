@@ -25,11 +25,11 @@ When the csv parameter is not specified or explicitly specified with "false", th
 
 ```example JSON
 xfukaya@kfukaya:~/projects/python/WasabiBillingAPI$ python3 wasabi_billing_get_utilization.py
+INFO:__main__:(option specified) csv = false
 INFO:__main__:From date = 2024-03-10
 INFO:__main__:To date = 2024-03-11
 INFO:__main__:Target URL is https://billing.wasabisys.com/utilization
 INFO:__main__:status: 200
-INFO:__main__:[{'UtilizationNum': 82744145, 'AcctNum': 222373, 'AcctPlanNum': 574816, 'StartTime': '2024-03-10T00:00:00Z', 'EndTime': '2024-03-11T00:00:00Z', 'CreateTime': '2024-03-11T06:56:28Z', 'NumBillableObjects': 27847, 'NumBillableDeletedObjects': 65696, 'RawStorageSizeBytes': 4476074841, 'PaddedStorageSizeBytes': 4477382635, 'MetadataStorageSizeBytes': 3268984, 'DeletedStorageSizeBytes': 89162081234, 'OrphanedStorageSizeBytes': 0, 'MinStorageChargeBytes': 0, 'NumAPICalls': 0, 'UploadBytes': 0, 'DownloadBytes': 0, 'StorageWroteBytes': 0, 'StorageReadBytes': 0, 'NumGETCalls': 0, 'NumPUTCalls': 0, 'NumDELETECalls': 0, 'NumLISTCalls': 0, 'NumHEADCalls': 0, 'DeleteBytes': 0}]
 INFO:__main__:Utilization Number        : 82744145
 INFO:__main__:Account Number            : 222373
 INFO:__main__:Account Plan Number       : 574816
