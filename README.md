@@ -19,7 +19,11 @@ Now, you are ready to start executing the samples with the following command:
 python <python file>
 ```
 **(Note)** Depending on your environment, "python" command could be different, for example, for Linux it could be "python3".
-```example
+
+### JSON OUTPUT
+When the csv parameter is not specified or explicitly specified with "false", the output will be with JSON format.
+
+```example JSON
 xfukaya@kfukaya:~/projects/python/WasabiBillingAPI$ python3 wasabi_billing_get_utilization.py
 INFO:__main__:From date = 2024-03-10
 INFO:__main__:To date = 2024-03-11
@@ -58,8 +62,31 @@ INFO:__main__:deleted Storage   : 89162081234
 INFO:__main__:-----------------------------------------------------------------------------------
 xfukaya@kfukaya:~/projects/python/WasabiBillingAPI$
 ```
+
+### CSV OUTPUT
+When the csv parameter is specified with "true", the output will be with CSV format.
+
+```example CSV
+xfukaya@kfukaya:~/projects/python/WasabiBillingAPI$ python3 wasabi_billing_get_utilization.py
+INFO:__main__:(option specified) csv = true
+INFO:__main__:From date = 2024-03-04
+INFO:__main__:To date = 2024-03-11
+INFO:__main__:Target URL is https://billing.wasabisys.com/utilization
+INFO:__main__:status: 200
+StartTime,EndTime,NumBillableActiveStorageObjects,NumBillableDeletedStorageObjects,RawActiveStorageBytes,BillableActiveStorageBytes,BillableDeletedStorageBytes,NumAPICalls,IngressBytes,EgressBytes
+2024-03-04T00:00:00Z,2024-03-05T00:00:00Z,27844,65699,4465589081,4470157171,89162093522,0,0,0
+2024-03-05T00:00:00Z,2024-03-06T00:00:00Z,27844,65699,4465589081,4470157171,89162093522,0,0,0
+2024-03-06T00:00:00Z,2024-03-07T00:00:00Z,27844,65698,4465589081,4470157171,89162089426,0,0,0
+2024-03-07T00:00:00Z,2024-03-08T00:00:00Z,27844,65693,4465589081,4470157171,89162068946,0,0,0
+2024-03-08T00:00:00Z,2024-03-09T00:00:00Z,27847,65696,4476074841,4480651619,89162081234,497,361795,665164
+2024-03-09T00:00:00Z,2024-03-10T00:00:00Z,27847,65696,4476074841,4480651619,89162081234,0,0,0
+2024-03-10T00:00:00Z,2024-03-11T00:00:00Z,27847,65696,4476074841,4480651619,89162081234,0,0,0
+
+xfukaya@kfukaya:~/projects/python/WasabiBillingAPI$
+```
+
 ## Storage Calculation
-The storage values are calculated as shown bellow:
+The storage values are calculated as shown below:
 
 Total Storage = Active Storage + Deleted Storage  
 Active Storage = PaddedStorageSizeBytes + MetadataStorageSizeBytes  

@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 # ERROR    - 40
 # CRITICAL - 50
 LOG_LEVEL = 20
+# LOG_LEVEL = 10
 
 # logger samples
 # logger.info("This is a info log.")
@@ -104,8 +105,8 @@ def check_param(**params):
             res = False
             break
 
-        if paramValidNum == 2:
-            break
+        # if paramValidNum == 2:
+        #     break
 
     return paramValidNum, csvFlag, fromDate, toDate
 
@@ -128,6 +129,81 @@ def calculate_storage(util):
     total_storage = active_storage + deleted_storage
 
     return total_storage, active_storage, deleted_storage
+
+
+# Show information with the CSV Response
+def show_CSV_response(r):
+    ## Response CSV
+    utils = {}
+
+    logger.debug(f"CSV response to be shown ...")
+
+    logger.debug(f"{r}")
+    logger.debug(f"{type(r)}")
+
+    logger.debug(f"{r.text}")
+    logger.debug(f"{type(r.text)}")
+
+    if r.status_code == 200:
+        utils = r.text
+        # Show CSV
+        print(f"{r.text}")
+
+# Show information with the JSON Response
+def show_JSON_response(r):
+    ## Response JSON
+    utils = {}
+
+    logger.debug(f"{r.json()}")
+    logger.debug(f"{type(r.json())}")
+
+    if r.status_code == 200:
+        utils = r.json()
+    for util in utils:
+        logger.debug(
+            "==================================================================================="
+        )
+        logger.debug(util)
+        logger.debug(
+            "-----------------------------------------------------------------------------------"
+        )
+        logger.info(f"Utilization Number        : {util['UtilizationNum']}")
+        logger.info(f"Account Number            : {util['AcctNum']}")
+        logger.info(f"Account Plan Number       : {util['AcctPlanNum']}")
+        logger.info(f"Start Time                : {util['StartTime']}")
+        logger.info(f"End Time                  : {util['EndTime']}")
+        logger.info(f"Create Time               : {util['CreateTime']}")
+        logger.info(f"# of Billable Objects     : {util['NumBillableObjects']}")
+        logger.info(f"# of Billable Deleted objects : {util['NumBillableDeletedObjects']}")
+        logger.info(f"Raw Storage Size Bytes        : {util['RawStorageSizeBytes']}")
+        logger.info(f"Padded Storage Size Bytes     : {util['PaddedStorageSizeBytes']}")
+        logger.info(f"Metadata Storage Size Bytes   : {util['MetadataStorageSizeBytes']}")
+        logger.info(f"Deleted Storage Size Bytes    : {util['DeletedStorageSizeBytes']}")
+        logger.info(f"Orphaned Storage Size Bytes   : {util['OrphanedStorageSizeBytes']}")
+        logger.info(f"Minimum Storage Charge Bytes  : {util['MinStorageChargeBytes']}")
+        logger.info(f"Number of API Calls           : {util['NumAPICalls']}")
+        logger.info(f"Upload Bytes                  : {util['UploadBytes']}")
+        logger.info(f"Download Bytes                : {util['DownloadBytes']}")
+        logger.info(f"Storage Wrote Bytes           : {util['StorageWroteBytes']}")
+        logger.info(f"Storage Read Bytes            : {util['StorageReadBytes']}")
+        logger.info(f"Number of GET Calls           : {util['NumGETCalls']}")
+        logger.info(f"Number of PUT Calls           : {util['NumPUTCalls']}")
+        logger.info(f"Number of DELETE Calls        : {util['NumDELETECalls']}")
+        logger.info(f"Number of LIST Calls          : {util['NumLISTCalls']}")
+        logger.info(f"Number of HEAD Calls          : {util['NumHEADCalls']}")
+        logger.info(f"Delete Bytes                  : {util['DeleteBytes']}")
+        logger.info(
+            "-----------------------------------------------------------------------------------"
+        )
+
+        # calculate total, active and deleted storage (per day)
+        total_storage, active_storage, deleted_storage = calculate_storage(util)
+        logger.info(f"Total Storage     : {total_storage}")
+        logger.info(f"Active Storage    : {active_storage}")
+        logger.info(f"deleted Storage   : {deleted_storage}")
+        logger.info(
+            "-----------------------------------------------------------------------------------"
+        )
 
 
 # By using Wasabi Billing Endpoints, your Sub-Accounts can access daily summary utilization of their Sub-Account as well as daily utilizations of all buckets broken down into per-bucket components.
@@ -188,6 +264,8 @@ def get_utilization(**inputParams):
     # If optional parameter (csv=true) is specified
     if csvFlag:
         httpParam["csv"] = "true"
+    else:
+        httpParam["csv"] = "false"
 
     ## API Key value
     access_key, secret_key = get_aws_credentials(AWS_PROFILE)
@@ -207,61 +285,17 @@ def get_utilization(**inputParams):
     ## requests.get(url, params={key: value}, args)
     r = requests.get(url, headers=api_head, params=httpParam)
 
+    ## Response
+    logger.debug(f"response: {r}")
+
     ## Response status code
     logger.info(f"status: {r.status_code}")
 
-    ## Response JSON
-    logger.info(f"{r.json()}")
-    logger.debug(f"{type(r.json())}")
-
-    if r.status_code == 200:
-        utils = r.json()
-    for util in utils:
-        logger.debug(
-            "==================================================================================="
-        )
-        logger.debug(util)
-        logger.debug(
-            "-----------------------------------------------------------------------------------"
-        )
-        logger.info(f"Utilization Number        : {util['UtilizationNum']}")
-        logger.info(f"Account Number            : {util['AcctNum']}")
-        logger.info(f"Account Plan Number       : {util['AcctPlanNum']}")
-        logger.info(f"Start Time                : {util['StartTime']}")
-        logger.info(f"End Time                  : {util['EndTime']}")
-        logger.info(f"Create Time               : {util['CreateTime']}")
-        logger.info(f"# of Billable Objects     : {util['NumBillableObjects']}")
-        logger.info(f"# of Billable Deleted objects : {util['NumBillableDeletedObjects']}")
-        logger.info(f"Raw Storage Size Bytes        : {util['RawStorageSizeBytes']}")
-        logger.info(f"Padded Storage Size Bytes     : {util['PaddedStorageSizeBytes']}")
-        logger.info(f"Metadata Storage Size Bytes   : {util['MetadataStorageSizeBytes']}")
-        logger.info(f"Deleted Storage Size Bytes    : {util['DeletedStorageSizeBytes']}")
-        logger.info(f"Orphaned Storage Size Bytes   : {util['OrphanedStorageSizeBytes']}")
-        logger.info(f"Minimum Storage Charge Bytes  : {util['MinStorageChargeBytes']}")
-        logger.info(f"Number of API Calls           : {util['NumAPICalls']}")
-        logger.info(f"Upload Bytes                  : {util['UploadBytes']}")
-        logger.info(f"Download Bytes                : {util['DownloadBytes']}")
-        logger.info(f"Storage Wrote Bytes           : {util['StorageWroteBytes']}")
-        logger.info(f"Storage Read Bytes            : {util['StorageReadBytes']}")
-        logger.info(f"Number of GET Calls           : {util['NumGETCalls']}")
-        logger.info(f"Number of PUT Calls           : {util['NumPUTCalls']}")
-        logger.info(f"Number of DELETE Calls        : {util['NumDELETECalls']}")
-        logger.info(f"Number of LIST Calls          : {util['NumLISTCalls']}")
-        logger.info(f"Number of HEAD Calls          : {util['NumHEADCalls']}")
-        logger.info(f"Delete Bytes                  : {util['DeleteBytes']}")
-        logger.info(
-            "-----------------------------------------------------------------------------------"
-        )
-
-        # calculate total, active and deleted storage (per day)        
-        total_storage, active_storage, deleted_storage = calculate_storage(util)
-        logger.info(f"Total Storage     : {total_storage}")
-        logger.info(f"Active Storage    : {active_storage}")
-        logger.info(f"deleted Storage   : {deleted_storage}")
-        logger.info(
-            "-----------------------------------------------------------------------------------"
-        )
-
+    if csvFlag:
+        show_CSV_response(r)
+    else:
+        show_JSON_response(r)
+        utils = utils = r.json()
 
     return utils
 
@@ -269,51 +303,52 @@ def get_utilization(**inputParams):
 import sys
 
 def main():
-# # for the execution of this script only
-# #################################################################
-# # case 1: with parameter (f and t)
-# logger.debug(f"Calling get_utilization(f, t) ...")
-# all_utils = get_utilization(f="2023-11-03", t="2023-11-09")
-# logger.debug(f"get_utilization(f,t).")
-# ## return value
-# logger.info(f"{all_utils}")
-# logger.debug(f"{type(all_utils)}")
-# #################################################################
-# # case 2: with parameter (f only) [Should Fail]
-# logger.debug(f"Calling get_util_control_subaccounts(id, f) ...")
-# all_utils = get_utilization(f="2023-11-03")
-# logger.debug(f"get_util_control_subaccounts(id, f).")
-# ## return value
-# logger.info(f"{all_utils}")
-# logger.debug(f"{type(all_utils)}")
-# #################################################################
-# # case 3: with parameter (csv='true') [Should Fail, date should be specified]
-# logger.debug(f"Calling get_utilization(csv) ...")
-# all_utils = get_utilization(csv="true")
-# logger.debug(f"get_utilization(csv).")
-# ## return value
-# logger.info(f"{all_utils}")
-# logger.debug(f"{type(all_utils)}")
-# #################################################################
-# # case 4: with parameter (f and t and csv='true')
-# logger.debug(f"Calling get_utilization(f, t, csv) ...")
-# all_utils = get_utilization(f="2023-11-03", t="2023-11-09", csv="true")
-# logger.debug(f"get_utilization(f, t, csv).")
-# ## return value
-# logger.info(f"{all_utils}")
-# logger.debug(f"{type(all_utils)}")
+    # # for the execution of this script only
+    # #################################################################
+    # # case 1: with parameter (f and t)
+    # logger.debug(f"Calling get_utilization(f, t) ...")
+    # all_utils = get_utilization(f="2023-11-03", t="2023-11-09")
+    # logger.debug(f"get_utilization(f,t).")
+    # ## return value
+    # logger.info(f"{all_utils}")
+    # logger.debug(f"{type(all_utils)}")
+    # #################################################################
+    # # case 2: with parameter (f only) [Should Fail]
+    # logger.debug(f"Calling get_util_control_subaccounts(id, f) ...")
+    # all_utils = get_utilization(f="2023-11-03")
+    # logger.debug(f"get_util_control_subaccounts(id, f).")
+    # ## return value
+    # logger.info(f"{all_utils}")
+    # logger.debug(f"{type(all_utils)}")
+    # #################################################################
+    # # case 3: with parameter (csv='true') [Should Fail, date should be specified]
+    # logger.debug(f"Calling get_utilization(csv) ...")
+    # all_utils = get_utilization(csv="true")
+    # logger.debug(f"get_utilization(csv).")
+    # ## return value
+    # logger.info(f"{all_utils}")
+    # logger.debug(f"{type(all_utils)}")
+    # #################################################################
+    # # case 4: with parameter (f and t and csv='true')
+    # logger.debug(f"Calling get_utilization(f, t, csv) ...")
+    # all_utils = get_utilization(f="2023-11-03", t="2023-11-09", csv="true")
+    # logger.debug(f"get_utilization(f, t, csv).")
+    # ## return value
+    # logger.info(f"{all_utils}")
+    # logger.debug(f"{type(all_utils)}")
 
     # Parameters
     logger.debug(f"Calling get_utilization(f, t, csv) ...")
-    all_utils = get_utilization(f="2024-03-10", t="2024-03-11", csv="true")
+    all_utils = get_utilization(f="2024-03-04", t="2024-03-11", csv="true")
+    # all_utils = get_utilization(f="2024-03-10", t="2024-03-11", csv="false")
     logger.debug(f"get_utilization(f, t, csv).")
     ## return value
     logger.debug(f"{all_utils}")
     logger.debug(f"{type(all_utils)}")
 
-    # # Parameters
+    # Parameters
     # logger.debug(f"Calling get_utilization(f, t) ...")
-    # all_utils = get_utilization(f="2024-03-10", t="2024-03-12")
+    # all_utils = get_utilization(f="2024-03-08", t="2024-03-12")
     # logger.debug(f"get_utilization(f, t).")
     # ## return value
     # logger.debug(f"{all_utils}")
