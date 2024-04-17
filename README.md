@@ -1,5 +1,7 @@
 # WasabiBillingAPI
-Sample of API code for accessing Wasabi Billing information
+Sample of API code for accessing Wasabi Billing information.
+The billing information can be retrieved in two forms, on the account level or per bucket level. The target account is the one with the access key and secret key provided.  
+When calling the Billing API, you are required to provide the access key and the secret key for authentication so you get the response successfully. The target account will be the account associated with the access key provided. 
 
 ## Quick Start
 ### Setup
