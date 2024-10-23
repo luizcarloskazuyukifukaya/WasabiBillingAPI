@@ -1,34 +1,36 @@
-# WasabiBillingAPI [JP](README-jp.md)
-Sample of API code for accessing Wasabi Billing information.
-The billing information can be retrieved in two forms, on the account level or per bucket level. The target account is the one with the access key and secret key provided.  
-When calling the Billing API, you are required to provide the access key and the secret key for authentication so you get the response successfully. The target account will be the account associated with the access key provided. 
+<!-- JAPANESE TRANSLATION -->
+# WasabiBillingAPI [EN](README.md)
+Wasabi課金情報にアクセスするためのAPIコードのサンプルです。
+課金情報は、アカウントレベルまたはバケットレベルの2つの形式で取得できます。対象アカウントは、提供されたアクセスキーとシークレットキーに関連付けられたものです。
+Billing APIを呼び出す際は、レスポンスを正常に取得するために認証用のアクセスキーとシークレットキーを提供する必要があります。対象アカウントは、提供されたアクセスキーに関連付けられたアカウントになります。
 
-To be more specific, the REST API HTTP Header should be including the following for authorization:
+具体的には、REST API HTTPヘッダーには、認証のために以下を含める必要があります:
 ```authorization
-Authorization: <Access Key>:<Secret Key>
+Authorization: <アクセスキー>:<シークレットキー>
 ```
 
-## Quick Start
-### Setup
-Please refer to the following [document](https://github.com/luizcarloskazuyukifukaya/s3pythonsamples/blob/main/README.md) for the setup of the environment.
+## クイックスタート
+### セットアップ
+環境のセットアップについては、こちらの[ドキュメント](https://github.com/luizcarloskazuyukifukaya/s3pythonsamples/blob/main/README.md)を参照してください。
 
-### Clone GitHub Repository
-Then, you will need to clone this GitHub repository to your local environment, so you can execute the codes.
- Select any folder/directory where you want to clone the samples with the following command:
- 
+### GitHubリポジトリのクローン
+次に、コードを実行できるように、このGitHubリポジトリをローカル環境にクローンする必要があります。
+サンプルをクローンしたい任意のフォルダ/ディレクトリを選択し、以下のコマンドを実行します:
 ```
 git clone https://github.com/luizcarloskazuyukifukaya/WasabiBillingAPI
 cd WasabiBillingAPI
 ```
-### Python Code Execution
-Now, you are ready to start executing the samples with the following command:
+
+### Pythonコードの実行
+これで、以下のコマンドでサンプルを実行する準備が整いました:
 ```Python
 python <python file>
 ```
-**(Note)** Depending on your environment, "python" command could be different, for example, for Linux it could be "python3".
 
-### JSON OUTPUT
-When the csv parameter is not specified or explicitly specified with "false", the output will be with JSON format.
+**(注)** 環境によっては、"python"コマンドが異なる場合があります。例えば、Linuxでは"python3"になる可能性があります。
+
+### JSON出力
+csvパラメータが指定されていないか、明示的に"false"と指定されている場合、出力はJSON形式になります。
 
 ```example JSON
 xfukaya@kfukaya:~/projects/python/WasabiBillingAPI$ python3 wasabi_billing_get_utilization.py
@@ -70,8 +72,8 @@ INFO:__main__:------------------------------------------------------------------
 xfukaya@kfukaya:~/projects/python/WasabiBillingAPI$
 ```
 
-### CSV OUTPUT
-When the csv parameter is specified with "true", the output will be with CSV format.
+### CSV出力
+csvパラメータが"true"と指定されている場合、出力はCSV形式になります。
 
 ```example CSV
 xfukaya@kfukaya:~/projects/python/WasabiBillingAPI$ python3 wasabi_billing_get_utilization.py
@@ -92,15 +94,15 @@ StartTime,EndTime,NumBillableActiveStorageObjects,NumBillableDeletedStorageObjec
 xfukaya@kfukaya:~/projects/python/WasabiBillingAPI$
 ```
 
-## Storage Calculation
-The storage values are calculated as shown below:
+### ストレージ計算
+ストレージ値は以下のように計算されます:
 
-Total Storage = Active Storage + Deleted Storage  
-Active Storage = PaddedStorageSizeBytes + MetadataStorageSizeBytes  
-Deleted Storage  = DeletedStorageSizeBytes  
+総ストレージ = アクティブストレージ + 削除ストレージ
+アクティブストレージ = パディングストレージサイズ（バイト） + メタデータストレージサイズ（バイト）
+削除ストレージ = 削除ストレージサイズ（バイト）
 
-## References
-## Wasabi Knowledge Base References:
+## 参考文献
+### Wasabiナレッジベース参考:
 <!-- - [How can my Sub-Accounts access Bucket and Utilization data through an API?](https://knowledgebase.wasabi.com/hc/en-us/articles/6890797591323-How-can-my-Sub-Accounts-access-Bucket-and-Utilization-data-through-an-API) -->
 - [How can my Sub-Accounts access Bucket and Utilization data through an API?](https://docs.wasabi.com/docs/how-can-my-sub-accounts-access-bucket-and-utilization-data-through-an-api)
 

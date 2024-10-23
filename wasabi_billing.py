@@ -42,8 +42,8 @@ INVALID_KEY = 'no_key'
 INVALID_VALUE = ''
 
 # profile to be used
-AWS_PROFILE = "wasabi"
-# AWS_PROFILE = "default"
+# AWS_PROFILE = "wasabi"
+AWS_PROFILE = "default"
 
 # Get AWS access key and secret key from AWS ~/.aws/credential
 # This is the method used in AWS CLI and AWS SDK
