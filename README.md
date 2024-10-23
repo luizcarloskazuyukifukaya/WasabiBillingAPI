@@ -96,6 +96,11 @@ Deleted Storage  = DeletedStorageSizeBytes
 
 ## References
 ## Wasabi Knowledge Base References:
-- [How can my Sub-Accounts access Bucket and Utilization data through an API?](https://knowledgebase.wasabi.com/hc/en-us/articles/6890797591323-How-can-my-Sub-Accounts-access-Bucket-and-Utilization-data-through-an-API)
-- [Creating a Wasabi API Access Key Set](https://knowledgebase.wasabi.com/hc/en-us/articles/360019677192-Creating-a-Wasabi-API-Access-Key-Set)
-- [How do I calculate charges based on bucket utilization?](https://knowledgebase.wasabi.com/hc/en-us/articles/360042869892-How-do-I-calculate-charges-based-on-bucket-utilization)
+<!-- - [How can my Sub-Accounts access Bucket and Utilization data through an API?](https://knowledgebase.wasabi.com/hc/en-us/articles/6890797591323-How-can-my-Sub-Accounts-access-Bucket-and-Utilization-data-through-an-API) -->
+- [How can my Sub-Accounts access Bucket and Utilization data through an API?](https://docs.wasabi.com/docs/how-can-my-sub-accounts-access-bucket-and-utilization-data-through-an-api)
+
+<!-- - [Creating a Wasabi API Access Key Set](https://knowledgebase.wasabi.com/hc/en-us/articles/360019677192-Creating-a-Wasabi-API-Access-Key-Set) -->
+- [Creating a Wasabi API Access Key Set](https://docs.wasabi.com/docs/creating-a-user-account-and-access-key)
+
+<!-- - [How do I calculate charges based on bucket utilization?](https://knowledgebase.wasabi.com/hc/en-us/articles/360042869892-How-do-I-calculate-charges-based-on-bucket-utilization) -->
+- [How do I calculate charges based on bucket utilization?](https://docs.wasabi.com/docs/how-do-i-calculate-charges-based-on-bucket-utilization)
